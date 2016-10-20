@@ -55,7 +55,8 @@
             return result;
         }
         function createWebsite(userID,website) {
-            var newWebsite={"_id": new Date().getTime()+"", "name": website.name,"developerId": userID ,"description": website.description}
+            var temp=new Date().getTime()+"";
+            var newWebsite={"_id": temp.substr(temp.length-4), "name": website.name,"developerId": userID ,"description": website.description}
             websites.push(newWebsite);
             console.log(websites)
             return findWebsitesByUser(userID);

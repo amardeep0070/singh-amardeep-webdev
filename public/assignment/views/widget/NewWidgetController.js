@@ -19,7 +19,8 @@
             $location.url("/user/" + vm.uid+ "/website/" + vm.wid + "/page/" + vm.pid + "/widget/new/" + type );
         }
         function createWidget(widget) {
-            widget._id= new Date().getTime()+"";
+            var temp = new Date().getTime()+"";
+            widget._id= temp.substr(temp.length-4);
             widget.widgetType=vm.type.toUpperCase();
             console.log(WidgetService.createWidget(vm.pid,widget));
 

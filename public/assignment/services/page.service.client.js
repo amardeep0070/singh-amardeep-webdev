@@ -22,7 +22,8 @@
         }
         return api;
         function createPage(websiteId, page) {
-            var newPage={"_id": new Date().getTime()+"", "name": page.name,"websiteId": websiteId }
+            var temp=new Date().getTime()+"";
+            var newPage={"_id": temp.substr(temp.length-4), "name": page.name,"websiteId": websiteId }
             pages.push(newPage);
         }
         function findPageByWebsiteId(websiteId) {
