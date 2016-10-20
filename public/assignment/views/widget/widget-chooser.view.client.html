@@ -1,18 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta charset="UTF-8">
-    <title>Widget-Chooser</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="css/style.css" rel="stylesheet"/>
-</head>
-<body>
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div>
             <p class ="navbar-text pull-left">
-                <a href="widget-list.html", class="navbar-link">
+                <a href="#/user/{{model.uid}}/website/{{model.wid}}/page/{{model.pid}}/widget" , class="navbar-link">
                     <span class = "glyphicon glyphicon-chevron-left"></span>
                 </a>
             </p>
@@ -28,14 +18,14 @@
 
         <ul class="list-inline">
 
-            <a href="widget-heading.html">Header </a>
-            <a class="pull-right" href="#">
+            <a ng-click="model.navigateToType('header')" href="">Header </a>
+            <a class="pull-right" href="">
             </a>
 
         </ul>
         <ul class="list-inline">
 
-            <a href="#">Label</a>
+            <a href="">Label</a>
             <a class="pull-right" href="#">
             </a>
 
@@ -64,14 +54,14 @@
 
         <ul class="list-inline">
 
-            <a href="widget-image.html">Image</a>
+            <a href="" ng-click="model.navigateToType('image')">Image</a>
             <a class="pull-right" href="#">
             </a>
         </ul>
 
         <ul class="list-inline">
 
-            <a href="widget-youtube.html">YouTube</a>
+            <a href="" ng-click="model.navigateToType('youtube')">YouTube</a>
             <a class="pull-right" href="#">
             </a>
         </ul>
@@ -95,11 +85,8 @@
     <div class="container">
         <div>
             <p class="navbar-text pull-right">
-                <a href="profile.html" class="navbar-link pull-right"> <span class="glyphicon glyphicon-user"></span></a>
+                <a href="#/user/{{model.uid}}" class="navbar-link pull-right"> <span class="glyphicon glyphicon-user"></span></a>
             </p>
         </div>
     </div>
 </nav>
-
-</body>
-</html>
