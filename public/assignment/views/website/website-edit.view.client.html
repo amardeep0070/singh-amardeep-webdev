@@ -39,26 +39,26 @@
 <div class="container">
 
     <div class="row ">
-        <div class="col-sm-4 hidden-xs ">
-
+        <div class="col-sm-4 hidden-xs dualScroll">
 
 
 
             <div ng-repeat="website in model.websiteList">
-                <ul class="list-inline">
-
+                <ul class="list-inline" ng-model="model.website.websiteName">
                     <a href="#/user/{{model.id}}/website/{{website._id}}/page"> {{website.name}}</a>
-                    <a class="pull-right" href="#/user/{{model.id}}/website/{{website._id}}">
-                        <span class="glyphicon glyphicon-cog"></span>
+                    <a class="pull-right" href="#/user/{{model.id}}/website/{{website._id}}	">
+                        <span class="glyphicon glyphicon-cog dualCog"></span>
                     </a>
 
                 </ul>
             </div>
 
+        </div>
+
 
         </div>
         <div class="v-line hidden-xs"></div>
-        <div class="col-sm-8">
+        <div class="col-sm-8 col-sm-8 pull-right hidden-xs dualScrollRightPane">
             <div >
                 <form>
                     <div class="form-group">
@@ -75,6 +75,23 @@
             </div>
 
         </div>
+    <div class="col-sm-8 col-sm-8 visible-xs">
+        <div >
+            <form>
+                <div class="form-group">
+                    <label for="Name">Website Name</label>
+                    <input ng-model="model.websiteDetails.name" type="text" class="form-control" id="Name" placeholder="Name" >
+                    <label for="Description">Website Description</label>
+                    <textarea ng-model="model.websiteDetails.description" rows="4" class="form-control " id="Description" placeholder="Description"></textarea>
+                </div>
+            </form>
+        </div>
+        <div>
+            <a class="btn btn-danger  btn-block " ng-click="model.deleteWebsite()"
+               href="#/user/{{model.id}}/website">Delete</a>
+        </div>
+
+    </div>
     </div>
     <nav class="navbar navbar-default navbar-fixed-bottom">
 

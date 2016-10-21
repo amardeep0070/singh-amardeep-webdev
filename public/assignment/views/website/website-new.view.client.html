@@ -37,7 +37,7 @@
 </nav>
 <div class="container">
     <div class="row ">
-        <div class="col-sm-4 hidden-xs ">
+        <div class="col-sm-4 hidden-xs dualScroll">
 
 
 
@@ -45,7 +45,7 @@
                         <ul class="list-inline" ng-model="model.website.websiteName">
                             <a href="#/user/{{model.id}}/website/{{website._id}}/page"> {{website.name}}</a>
                             <a class="pull-right" href="#/user/{{model.id}}/website/{{website._id}}	">
-                                <span class="glyphicon glyphicon-cog"></span>
+                                <span class="glyphicon glyphicon-cog dualCog"></span>
                             </a>
 
                         </ul>
@@ -53,17 +53,32 @@
 
     </div>
         <div class="v-line hidden-xs"></div>
-        <div class="col-sm-8" >
+        <div class="col-sm-8 pull-right hidden-xs dualScrollRightPane"   >
             <div ng-show="model.error" class="alert alert-danger" role ="alert">{{model.error}}</div>
            <div >
             <form>
                 <div class="form-group ">
-                    <label for="Name">Name</label>
-                    <input ng-model="model.website.websiteName" type="text" class="form-control" id="Name" placeholder="Name">
-                    <label for="Description">Description</label>
-                    <textarea ng-model="model.description" class="form-control " id="Description" placeholder="Description" rows="4"></textarea>
+                    <label for="Name1">Name</label>
+                    <input ng-model="model.website.websiteName" type="text" class="form-control" id="Name1" placeholder="Name">
+                    <label for="Description1">Description</label>
+                    <textarea ng-model="model.description" class="form-control " id="Description1" placeholder="Description" rows="4"></textarea>
                 </div>
             </form>
+            </div>
+
+        </div>
+        <div class="v-line hidden-xs"></div>
+        <div class="col-sm-8  visible-xs"   >
+            <div ng-show="model.error" class="alert alert-danger" role ="alert">{{model.error}}</div>
+            <div >
+                <form>
+                    <div class="form-group ">
+                        <label for="Name">Name</label>
+                        <input ng-model="model.website.websiteName" type="text" class="form-control" id="Name" placeholder="Name">
+                        <label for="Description">Description</label>
+                        <textarea ng-model="model.description" class="form-control " id="Description" placeholder="Description" rows="4"></textarea>
+                    </div>
+                </form>
             </div>
 
         </div>

@@ -18,6 +18,7 @@ input.form-control {
 
 
 }
+
 body {
     padding-top: 60px;
     margin-bottom: 65px;
@@ -79,4 +80,26 @@ body {
     width:1px;
     height:100%;
     border-left:1px solid gray;
+}
+.dualCog{
+
+    margin-right: 110px;
+
+}
+.dualScroll{
+    margin-left:15px;
+    margin-top: 50px;
+    padding-top: 15px;
+    margin-bottom: 50px;
+    margin-right: 50px;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    overflow: auto;
+}
+.dualScrollRightPane{
+    padding-left: 30px;padding-right: 0px;
+}
+::-webkit-scrollbar {
+    display: none;
 }
