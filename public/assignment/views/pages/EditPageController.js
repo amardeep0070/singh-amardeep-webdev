@@ -11,7 +11,8 @@
         vm.uid=$routeParams.uid;
         vm.websiteId=$routeParams.wid;
         vm.pid=$routeParams.pid;
-        vm.page=pagebyId();
+        vm.pages=pagebyId();
+        vm.page=angular.copy(vm.pages);
         vm.deletePage=deletePage;
         vm.updatePage=updatePage;
         function pagebyId() {
@@ -21,7 +22,8 @@
             PageService.deletePage(vm.pid);
             $location.url("/user/"+  vm.uid +"/website/"+vm.websiteId +"/page");
         }
-        function updatePage() {
+        function updatePage(page) {
+            PageService.updatePage(vm.pid,page);
             $location.url("/user/"+  vm.uid +"/website/"+vm.websiteId +"/page");
         }
     }

@@ -3,14 +3,14 @@
     <div class="container">
         <div>
             <p class="navbar-text pull-left">
-                <a href="" ng-click="model.updatePage()" class="navbar-link pull-right"> <span class="glyphicon glyphicon-chevron-left"></span></a>
+                <a href="#/user/{{model.uid}}/website/{{model.websiteId}}/page"  class="navbar-link pull-right"> <span class="glyphicon glyphicon-chevron-left"></span></a>
             </p>
             <a class="navbar-brand" id="Profile "href="#">
                 Edit Page
             </a>
 
             <p class="navbar-text pull-right">
-                <a href="" ng-click="model.updatePage()" class="navbar-link pull-right"> <span class="glyphicon glyphicon-ok"></span></a>
+                <a href="" ng-click="model.updatePage(model.page)" class="navbar-link pull-right"> <span class="glyphicon glyphicon-ok"></span></a>
             </p>
         </div>
     </div>
@@ -27,7 +27,7 @@
         </div>
         <div class="form-group">
             <label for="Pagetitle">Title</label>
-            <input type="text" class="form-control" id="Pagetitle" placeholder="Page Title">
+            <input ng-model="model.page.title" type="text" class="form-control" id="Pagetitle" placeholder="Page Title">
         </div>
 
     </form>

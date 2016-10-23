@@ -52,18 +52,14 @@
         }
         function findUserByCredentials (username,password) {
             for(var i in users){
-               // console.log(i);
                 if(users[i].username===username && users[i].password===password)
                 {
-                    
                     return users[i];
 
-                    //break;
                 }
             }
         }
         function findUserById(id) {
-           // var index=-1;
             for(var i in users){
                 if(users[i]._id===id){ // triple equals means dont cast == is bad practice, but it casts and check
 

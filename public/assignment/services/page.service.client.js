@@ -23,8 +23,9 @@
         return api;
         function createPage(websiteId, page) {
             var temp=new Date().getTime()+"";
-            var newPage={"_id": temp.substr(temp.length-4), "name": page.name,"websiteId": websiteId }
-            pages.push(newPage);
+            page._id=temp.substr(temp.length-4);
+            page.websiteId=websiteId;
+            pages.push(page);
         }
         function findPageByWebsiteId(websiteId) {
             var result= [];
@@ -47,6 +48,7 @@
             for(var i in pages){
                 if(pages[i]._id === pageId){
                     pages[i].name = page.name;
+                    pages[i].title=page.title;
                     return true;
                 }
             }

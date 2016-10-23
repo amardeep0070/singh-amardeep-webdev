@@ -12,8 +12,8 @@
         vm.id=$routeParams.uid;
         vm.websiteId=$routeParams.wid;
         function createPage(page) {
-            var newPage={"name":page.pageName};
-            PageService.createPage(vm.websiteId,newPage);
+            //var newPage={"name":page.name};
+            PageService.createPage(vm.websiteId,page);
         }
     }
 })();

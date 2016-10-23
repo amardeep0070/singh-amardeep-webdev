@@ -27,7 +27,7 @@
                 Edit Website
             </a>
             <p class="navbar-text pull-right">
-                <a href="#/user/{{model.id}}/website" class="navbar-link  ">
+                <a href="#/user/{{model.id}}/website" class="navbar-link  " ng-click="model.updateWebsite(model.result)">
                     <span id="ok-glyphicon-dualpane" class="glyphicon glyphicon-ok "></span>
                 </a>
             </p>
@@ -62,10 +62,10 @@
             <div >
                 <form>
                     <div class="form-group">
-                        <label for="Name">Website Name</label>
-                        <input ng-model="model.websiteDetails.name" type="text" class="form-control" id="Name" placeholder="Name" >
-                        <label for="Description">Website Description</label>
-                        <textarea ng-model="model.websiteDetails.description" rows="4" class="form-control " id="Description" placeholder="Description"></textarea>
+                        <label for="Name2">Website Name</label>
+                        <input ng-model="model.result.name" type="text" class="form-control" id="Name2" placeholder="Name" >
+                        <label for="Description2">Website Description</label>
+                        <textarea ng-model="model.result.description" rows="4" class="form-control " id="Description2" placeholder="Description"></textarea>
                     </div>
                 </form>
             </div>
@@ -80,9 +80,9 @@
             <form>
                 <div class="form-group">
                     <label for="Name">Website Name</label>
-                    <input ng-model="model.websiteDetails.name" type="text" class="form-control" id="Name" placeholder="Name" >
+                    <input ng-model="model.result.name" type="text" class="form-control" id="Name" placeholder="Name" >
                     <label for="Description">Website Description</label>
-                    <textarea ng-model="model.websiteDetails.description" rows="4" class="form-control " id="Description" placeholder="Description"></textarea>
+                    <textarea ng-model="model.result.description" rows="4" class="form-control " id="Description" placeholder="Description"></textarea>
                 </div>
             </form>
         </div>

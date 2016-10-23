@@ -13,20 +13,21 @@
        // var updateWebsite=updateWebsite;
         vm.deleteWebsite=deleteWebsites;
         vm.updateWebsite=updateWebsite;
+
         function init() {
             vm.websiteList = WebsiteService.findWebsitesByUser(vm.id);
             vm.websiteDetails =WebsiteService.findWebsiteById(vm.wid);
-
+            vm.result=angular.copy(vm.websiteDetails);
         }
         init();
 
         function deleteWebsites() {
-            console.log("deleted")
             WebsiteService.deleteWebsite(vm.wid);
             init();
         }
         function updateWebsite(newWebsite) {
-            WebsiteService.updateWebsite(newWebsite,wid);
+            console.log("update");
+            WebsiteService.updateWebsite(vm.wid,newWebsite);
         }
 
     }

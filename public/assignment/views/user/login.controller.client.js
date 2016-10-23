@@ -9,8 +9,8 @@
     function LoginController($location, UserService) {
         var vm=this;
         vm.login = login;  //Good practice
-            function login () {
-            var userid=UserService.findUserByCredentials(vm.username, vm.password);
+            function login (user) {
+            var userid=UserService.findUserByCredentials(user.username, user.password);
             if(userid!=null){
                 $location.url("/user/" + userid._id);
             }

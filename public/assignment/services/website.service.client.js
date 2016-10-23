@@ -25,16 +25,13 @@
             updateWebsite:updateWebsite
         };
         return api;
-        function updateWebsite(websiteId, website) {
-            for(var i in websites){
-                if(websites[i]._id === websiteId){
-                    websites[i].name = website.name;
-                    website[i].description=website.description
-                    return true;
-                }
-            }
-            return false;
+        function createWebsite(userID,website) {
+            var temp=new Date().getTime()+"";
+            var newWebsite={"_id": temp.substr(temp.length-4), "name": website.name,"developerId": userID ,"description": website.description}
+            websites.push(newWebsite);
+            return findWebsitesByUser(userID);
         }
+
         function findWebsiteById(websiteId) {
             for (var w in websites){
                 if(websites[w]._id===websiteId){
@@ -43,24 +40,28 @@
             }
             return null;
         }
+
+        function updateWebsite(websiteId, website) {
+            for(var i in websites){
+                if(websites[i]._id === websiteId){
+                    websites[i].name = website.name;
+                    websites[i].description=website.description;
+                    return true;
+                }
+            }
+            return false;
+        }
+
         function findWebsitesByUser(userId) {
-            console.log("service  "+ userId)
             var result=[];
             for (var w in websites){
                 if(websites[w].developerId==userId){
-                    console.log("in")
                     result.push(websites[w]);
                 }
             }
             return result;
         }
-        function createWebsite(userID,website) {
-            var temp=new Date().getTime()+"";
-            var newWebsite={"_id": temp.substr(temp.length-4), "name": website.name,"developerId": userID ,"description": website.description}
-            websites.push(newWebsite);
-            console.log(websites)
-            return findWebsitesByUser(userID);
-        }
+
         function deleteWebsite(websiteId) {
             for (var w in websites){
                 if(websites[w]._id===websiteId){
@@ -72,4 +73,4 @@
         }
     }
 
-})()
+})();

@@ -12,14 +12,18 @@
         vm.wid=$routeParams.wid;
         vm.wgid=$routeParams.wgid;
         vm.deleteWidget=deleteWidget;
+        vm.updateWidget=updateWidget;
         function init() {
-            vm.widget=WidgetService.findWidgetById(vm.wgid);
+            vm.widgets=WidgetService.findWidgetById(vm.wgid);
+            vm.widget=angular.copy(vm.widgets);
         }
         init();
         function deleteWidget() {
             vm.deleteWidget=WidgetService.deleteWidget(vm.wgid);
-            console.log("deleted")
             $location.url("/user/" + vm.uid+ "/website/" + vm.wid + "/page/" + vm.pid + "/widget" );
+        }
+        function updateWidget(widget) {
+            WidgetService.updateWidget(vm.wgid,widget);
         }
     }
 })();
