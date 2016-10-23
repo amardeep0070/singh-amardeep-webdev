@@ -22,7 +22,7 @@
             var temp = new Date().getTime()+"";
             widget._id= temp.substr(temp.length-4);
             widget.widgetType=vm.type.toUpperCase();
-            console.log(WidgetService.createWidget(vm.pid,widget));
+           WidgetService.createWidget(vm.pid,widget);
 
         }
     }

@@ -16,7 +16,6 @@
     init();
         function updateUser(newUser) {
             UserService.updateUser(vm.id,newUser);
-            console.log(newUser);
 
         }
     }

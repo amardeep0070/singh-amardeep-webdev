@@ -13,7 +13,6 @@
         vm.newWebsite = newWebsite;
         function websitesList() {
             var result = WebsiteService.findWebsitesByUser(vm.id);
-            console.log(vm.id);
             return result;
         }
         function newWebsite(website) {

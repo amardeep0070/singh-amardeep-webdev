@@ -26,7 +26,6 @@
             init();
         }
         function updateWebsite(newWebsite) {
-            console.log("update");
             WebsiteService.updateWebsite(vm.wid,newWebsite);
         }
 
