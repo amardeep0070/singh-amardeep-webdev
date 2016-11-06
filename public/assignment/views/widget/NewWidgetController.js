@@ -11,7 +11,8 @@
         vm.uid=$routeParams.uid;
         vm.pid=$routeParams.pid;
         vm.wid=$routeParams.wid;
-        vm.wgid=$routeParams.wgid;
+        var wigidTemp=(new Date().getTime()+"")
+        vm.wgid=wigidTemp.substr(wigidTemp.length-4);
         vm.type=$routeParams.type;
         vm.navigateToType=navigateToType;
         vm.createWidget=createWidget;
@@ -22,7 +23,15 @@
             var temp = new Date().getTime()+"";
             widget._id= temp.substr(temp.length-4);
             widget.widgetType=vm.type.toUpperCase();
-           WidgetService.createWidget(vm.pid,widget);
+           WidgetService
+               .createWidget(vm.pid,widget)
+               .success(function (result) {
+                  // console.log("Widget Created");
+                   $location.url("/user/" + vm.uid+ "/website/" + vm.wid+ "/page/" + vm.pid + "/widget");
+               })
+               .error(function (error) {
+                   console.log("server error")
+               })
 
         }
     }

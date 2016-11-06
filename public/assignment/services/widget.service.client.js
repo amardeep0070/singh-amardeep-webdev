@@ -5,66 +5,51 @@
     angular
         .module("WebAppMaker")
         .factory("WidgetService",WidgetService);
-    var widgets = [
-        { "_id": "123", "widgetType": "HEADER", "pageId": "321", "size": 2, "text": "GIZMODO", "name":"boats boats boats", "description":"Boatssss Bro" },
-        { "_id": "234", "widgetType": "HEADER", "pageId": "321", "size": 4, "text": "Lorem ipsum", "name":"boats boats boats", "description":"Boatssss Bro" },
-        { "_id": "345", "widgetType": "IMAGE", "pageId": "321", "width": "100%",
-            "url": "https://9to5mac.files.wordpress.com/2016/09/iphone-7-06.png?w=1270" , "name":"boats boats boats", "description":"Boatssss Bro" },
-        { "_id": "456", "widgetType": "HTML", "pageId": "321", "text": "<p>Lorem ipsum</p>" , "name":"boats boats boats", "description":"Boatssss Bro" },
-        { "_id": "567", "widgetType": "HEADER", "pageId": "321", "size": 4, "text": "Lorem ipsum" , "name":"boats boats boats", "description":"Boatssss Bro"} ,
-        { "_id": "678", "widgetType": "YOUTUBE", "pageId": "321", "width": "100%",
-            "url": "https://youtu.be/AM2Ivdi9c4E", "name":"boats boats boats", "description":"Boatssss Bro" },
-        { "_id": "789", "widgetType": "HTML", "pageId": "321", "text": "<p>Lorem ipsum</p>" , "name":"boats boats boats", "description":"Boatssss Bro" }
-    ];
-    function WidgetService() {
+    function WidgetService($http) {
         var api = {
             createWidget: createWidget,
             findWidgetsByPageId: findWidgetsByPageId,
             findWidgetById:findWidgetById,
             updateWidget:updateWidget,
-            deleteWidget:deleteWidget
+            deleteWidget:deleteWidget,
+            reorderWidget : reorderWidget
         };
         return api;
         function createWidget(pageId, widget) {
+            if(widget.width){
+            }
+            else widget.width="100%"
             widget.pageId = pageId;
-            widgets.push(widget);
-            return widgets;
+            var url="/api/page/" + pageId + "/widget";
+            return $http.post(url,widget);
         }
 
         function findWidgetsByPageId(pageId) {
-            var result=[];
-            for (var w in widgets) {
-                if (widgets[w].pageId === pageId) {
-                    result.push( widgets[w]);
-                }
-            }
-            return result;
+            var url="/api/page/" + pageId + "/widget";
+            return $http.get(url);
+
         }
         function findWidgetById(widgetId) {
-            for (var w in widgets){
-                if(widgets[w]._id===widgetId){
-                    return widgets[w];
-                }
-            }
-            return null;
+            var url="/api/widget/" + widgetId;
+            return $http.get(url);
+
         }
         function updateWidget(widgetId, widget) {
-            for (var i in widgets){
-                if(widgets[i]._id === widgetId){
-                    widgets[i] = widget;
-                    return widget;
-                }
+            if(widget.width){
             }
-            return null;
+            else widget.width="100%"
+            var url="/api/widget/" + widgetId;
+            return $http.put(url,widget);
+
         }
         function deleteWidget(widgetId){
-            for (var i in widgets){
-                if(widgets[i]._id === widgetId){
-                    widgets.splice(i,1);
-                    return true;
-                }
-            }
-            return false;
+            var url="/api/widget/" + widgetId;
+            return $http.delete(url);
+
+        }
+        function reorderWidget(pageId,index1,index2){
+            var url = "/page/"+pageId+"/widget?start="+index1+"&end="+index2;
+            return $http.put(url);
         }
     }
 })()

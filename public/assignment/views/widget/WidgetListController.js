@@ -16,12 +16,30 @@
         vm.checkSafeYouTubeUrl=checkSafeYouTubeUrl;
         vm.checkSafeImage=checkSafeImage;
         vm.navigateToCreate=navigateToCreate;
+        vm.reorderWidget = reorderWidget;
+       // vm.navigateToEdit=navigatetoEdit;
 
+        // function navigatetoEdit() {
+        //     $location.url("/user/" + vm.uid+ "/website/" + vm.wid +"/page/" +vm.pid + "/widget/" + vm.wgid);
+        // }
         function navigateToCreate() {
             $location.url("/user/" + vm.uid+ "/website/" + vm.wid +"/page/" +vm.pid + "/widget/new");
         }
         function init() {
-            vm.widgets=WidgetService.findWidgetsByPageId(vm.pid);
+            WidgetService
+                .findWidgetsByPageId(vm.pid)
+                .success(function (result) {
+                    vm.widgets=result;
+                    //jQuery way to sortable
+                    // var widgets= $(".wam-widgets")
+                    //     .sortable({
+                    //         axis:'y'
+                    //     });
+                    // console.log(widgets);
+                })
+                .error(function (error) {
+                    console.log("server error");
+                })
         }
         init();
         function checkSafeHtml(html) {
@@ -35,6 +53,18 @@
         }
         function checkSafeImage(url) {
             return $sce.trustAsResourceUrl(url);
+        }
+        function reorderWidget(index1, index2){
+            WidgetService
+                .reorderWidget(vm.pid,index1,index2)
+                .then(
+                    function(success){
+                        init();
+                    },
+                    function(error){
+                        vm.error = "Not able to reorder the widgets";
+                    }
+                )
         }
     }
 })();

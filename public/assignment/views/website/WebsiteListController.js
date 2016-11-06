@@ -11,8 +11,10 @@
         vm.id= $routeParams.uid;
         vm.websiteList = websitesList() ;
         function websitesList() {
-            var result = WebsiteService.findWebsitesByUser(vm.id);
-            return result;
+            WebsiteService.findWebsitesByUser(vm.id)
+                .success(function (result) {
+                    vm.websiteList=result;
+                })
         }
 
     }

@@ -6,7 +6,7 @@
             </a>
 
             <p class="navbar-text pull-right">
-               <a href="#/user/{{model.id}}/website" class="navbar-link pull-right"> <span class="glyphicon glyphicon-ok"></span></a>
+               <a href="" ng-click="model.updateUser(model.user)" class="navbar-link pull-right"> <span class="glyphicon glyphicon-ok"></span></a>
             </p>
         </div>
     </div>
@@ -35,8 +35,8 @@
             </div>
         </form>
 
-        <a class="btn btn-primary btn-block"
-           href="#/user/{{model.id}}/website">Websites</a>
+        <a ng-click="model.updateUser(model.user)" class="btn btn-primary btn-block"
+           href="">Websites</a>
         <a class="btn btn-danger  btn-block"
            href="#login">Logout</a>
     </div>

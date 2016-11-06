@@ -6,7 +6,7 @@
         .module("WebAppMaker")
         .controller("EditWebsiteController",EditWebsiteController)
 
-    function EditWebsiteController(WebsiteService,$routeParams) {
+    function EditWebsiteController(WebsiteService,$routeParams,$location) {
         var vm = this;
         vm.id= $routeParams.uid;
         vm.wid=$routeParams.wid;
@@ -15,18 +15,40 @@
         vm.updateWebsite=updateWebsite;
 
         function init() {
-            vm.websiteList = WebsiteService.findWebsitesByUser(vm.id);
-            vm.websiteDetails =WebsiteService.findWebsiteById(vm.wid);
-            vm.result=angular.copy(vm.websiteDetails);
+            WebsiteService.findWebsitesByUser(vm.id)
+                .success(function (result) {
+                    vm.websiteList=result;
+                })
+                .error(function (error) {
+                    console.log("Server error");
+                })
+             WebsiteService
+                .findWebsiteById(vm.wid)
+                .success(function (websitreDetails) {
+                    vm.websiteDetails=websitreDetails;
+                    vm.result=angular.copy(vm.websiteDetails);
+                })
+
         }
         init();
 
         function deleteWebsites() {
-            WebsiteService.deleteWebsite(vm.wid);
-            init();
+            WebsiteService.deleteWebsite(vm.wid)
+                .success(function (deleted) {
+                    init();
+                    $location.url("/user/" + vm.id+"/website");
+                })
+
         }
         function updateWebsite(newWebsite) {
-            WebsiteService.updateWebsite(vm.wid,newWebsite);
+            WebsiteService
+                .updateWebsite(vm.wid,newWebsite)
+                .success(function () {
+                    $location.url("/user/" + vm.id+"/website");
+                })
+                .error(function () {
+
+                })
         }
 
     }

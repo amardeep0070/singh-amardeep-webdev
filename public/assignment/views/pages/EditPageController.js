@@ -12,19 +12,32 @@
         vm.websiteId=$routeParams.wid;
         vm.pid=$routeParams.pid;
         vm.pages=pagebyId();
-        vm.page=angular.copy(vm.pages);
+
         vm.deletePage=deletePage;
         vm.updatePage=updatePage;
         function pagebyId() {
-           return PageService.findPageById(vm.pid)
+            PageService
+                .findPageById(vm.pid)
+                .success(function (result) {
+                    vm.pages=result;
+                    vm.page=angular.copy(vm.pages);
+                })
         }
         function deletePage() {
-            PageService.deletePage(vm.pid);
-            $location.url("/user/"+  vm.uid +"/website/"+vm.websiteId +"/page");
+            PageService
+                .deletePage(vm.pid)
+                .success(function (deletedPges) {
+                    $location.url("/user/"+  vm.uid +"/website/"+vm.websiteId +"/page");
+                })
+
         }
         function updatePage(page) {
-            PageService.updatePage(vm.pid,page);
-            $location.url("/user/"+  vm.uid +"/website/"+vm.websiteId +"/page");
+            PageService
+                .updatePage(vm.pid,page)
+                .success(function (updatedPge) {
+                    $location.url("/user/"+  vm.uid +"/website/"+vm.websiteId +"/page");
+                })
+
         }
     }
 })();

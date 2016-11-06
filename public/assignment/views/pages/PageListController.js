@@ -11,7 +11,14 @@
      vm.websiteId=$routeParams.wid;
      vm.id=$routeParams.uid;
     function init() {
-        vm.pageList=PageService.findPageByWebsiteId(vm.websiteId);
+        PageService
+            .findPageByWebsiteId(vm.websiteId)
+            .success(function (pages) {
+                vm.pageList=pages;
+            })
+            .error(function (error) {
+                console.log("Server Error");
+            })
     }
     init();
     }

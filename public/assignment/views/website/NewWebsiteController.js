@@ -6,14 +6,19 @@
         .module("WebAppMaker")
         .controller("NewWebsiteController",NewWebsiteController)
     
-    function NewWebsiteController(WebsiteService,$routeParams) {
+    function NewWebsiteController(WebsiteService,$routeParams,$location) {
         vm=this;
         vm.id= $routeParams.uid;
         vm.websiteList = websitesList();
         vm.newWebsite = newWebsite;
         function websitesList() {
-            var result = WebsiteService.findWebsitesByUser(vm.id);
-            return result;
+            WebsiteService.findWebsitesByUser(vm.id)
+                .success(function (result) {
+                    vm.websiteList=result;
+                })
+                .error(function (error) {
+                    console.log("Server error");
+                })
         }
         function newWebsite(website) {
             if(website.websiteName===undefined || website.websiteName===""){
@@ -25,7 +30,15 @@
                 "description": website.description
             }
             vm.error=undefined;
-            vm.websiteList=WebsiteService.createWebsite(vm.id,newWeb);
+            WebsiteService
+                .createWebsite(vm.id,newWeb)
+                .success(function (newWebsite) {
+                    vm.websiteList=newWebsite;
+                    $location.url("/user/" + vm.id+"/website");
+                })
+                .error(function (error) {
+                    console.log("server error");
+                })
 
         }
 
