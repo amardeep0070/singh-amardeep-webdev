@@ -21,10 +21,10 @@
                     //not taken
                     if (user.username !== undefined && user.username!=="" && user.password === user.verify && (user.password!==undefined  && user.verify!==undefined && user.verify!==undefined && user.password!=="" ) ) {
                             var temp=new Date().getTime()+"";
-                            user._id=temp.substr(temp.length-4),
+                          //  user._id=temp.substr(temp.length-4),
                             user.firstName= user.username,
                             user.lastName=user.username,
-                            user.emailId=user.username + "@gmail.com"
+                            user.email=user.username + "@gmail.com"
                         //Creating new User.
                         UserService
                             .createUser(user)

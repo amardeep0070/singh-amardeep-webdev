@@ -4,5 +4,5 @@
 //to avoid namespace duplication and clutter we use this.
 //Best Practice.
 (function () {
-    angular.module("WebAppMaker",["ngRoute","wamDirectives"]);
+    angular.module("WebAppMaker",["ngRoute","wamDirectives","textAngular"]);
 })();

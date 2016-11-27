@@ -11,8 +11,8 @@
         vm.uid=$routeParams.uid;
         vm.pid=$routeParams.pid;
         vm.wid=$routeParams.wid;
-        var wigidTemp=(new Date().getTime()+"")
-        vm.wgid=wigidTemp.substr(wigidTemp.length-4);
+        //var wigidTemp=(new Date().getTime()+"")
+        //vm.wgid=wigidTemp.substr(wigidTemp.length-4);
         vm.type=$routeParams.type;
         vm.navigateToType=navigateToType;
         vm.createWidget=createWidget;
@@ -20,9 +20,10 @@
             $location.url("/user/" + vm.uid+ "/website/" + vm.wid + "/page/" + vm.pid + "/widget/new/" + type );
         }
         function createWidget(widget) {
-            var temp = new Date().getTime()+"";
-            widget._id= temp.substr(temp.length-4);
-            widget.widgetType=vm.type.toUpperCase();
+            // var temp = new Date().getTime()+"";
+            // widget._id= temp.substr(temp.length-4);
+            widget.type=vm.type.toUpperCase();
+            console.log(widget.type);
            WidgetService
                .createWidget(vm.pid,widget)
                .success(function (result) {

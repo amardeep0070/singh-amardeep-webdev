@@ -18,8 +18,8 @@
         };
         return api;
         function createWebsite(userID,website) {
-            var temp=new Date().getTime()+"";
-            var newWebsite={"_id": temp.substr(temp.length-4), "name": website.name,"developerId": userID ,"description": website.description}
+            //var temp=new Date().getTime()+"";
+            var newWebsite={"name": website.name,"description": website.description}
             var url = "/api/user/"+userID+"/website";
             return $http.post(url, newWebsite);
         }

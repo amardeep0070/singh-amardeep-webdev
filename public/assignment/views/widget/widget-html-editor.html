@@ -2,15 +2,15 @@
     <div class="container">
         <div>
             <p class ="navbar-text pull-left">
-                <a href="#/user/{{model.uid}}/website/{{model.wid}}/page/{{model.pid}}/widget" , class="navbar-link">
+                <a href="#/user/{{model.uid}}/website/{{model.wid}}/page/{{model.pid}}/widget/" , class="navbar-link">
                     <span class = "glyphicon glyphicon-chevron-left"></span>
                 </a>
             </p>
-            <a class="navbar-brand" id="Profile "href="#">
-                Widget Edit
+            <a class="navbar-brand" id="Profile "href="#/user/{{model.uid}}/website/{{model.wid}}/page/{{model.pid}}/widget/">
+                Edit Widget
             </a>
             <p class ="navbar-text pull-right">
-                <a href="#/user/{{model.uid}}/website/{{model.wid}}/page/{{model.pid}}/widget" , class="navbar-link">
+                <a href="" ng-click="model.updateWidget(model.widget)" , class="navbar-link">
                     <span class = "glyphicon glyphicon-ok"></span>
                 </a>
             </p>
@@ -23,10 +23,15 @@
             <label for="name">Name</label>
             <input type="text" class="form-control" id="name" placeholder="Name" ng-model="model.widget.name">
         </div>
-        <div class="form-group">
-            <label for="text">Text</label>
-            <input type="text" class="form-control" id="text" placeholder="Your Text Here" ng-model="model.widget.text">
+
+        <div ng-model="model.widget.text"
+             text-angular
+             ta-toolbar="[['h1','h2','h3'],['bold','italics','underline','strikeThrough'],
+        ['ul','ol'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],
+        ['indent','outdent'],['html']]">
         </div>
+
+
         <a class="btn btn-danger  btn-block"
            href="" ng-click="model.deleteWidget()">Delete</a>
     </form>

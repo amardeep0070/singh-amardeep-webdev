@@ -17,9 +17,7 @@
         }
         return api;
         function createPage(websiteId, page) {
-            var temp=new Date().getTime()+"";
-            page._id=temp.substr(temp.length-4);
-            page.websiteId=websiteId;
+            page._website=websiteId;
             var url="/api/website/"+websiteId +"/page";
             return $http.post(url,page);
 

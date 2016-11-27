@@ -37,6 +37,7 @@
                 .success(function (deleted) {
                     init();
                     $location.url("/user/" + vm.id+"/website");
+
                 })
                 .error(function () {
                     console.log("Server Error")

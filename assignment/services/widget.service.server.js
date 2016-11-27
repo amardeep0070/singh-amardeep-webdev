@@ -1,7 +1,8 @@
 /**
  * Created by Amardeep on 04/11/16.
  */
-module.exports= function (app) {
+module.exports= function (app,model) {
+    var widgetModel = model.widgetModel;
     var mime = require('mime');
     var multer = require('multer'); // npm install multer --save
     var storage = multer.diskStorage({
@@ -34,60 +35,108 @@ module.exports= function (app) {
 
     function findAllWidgetsForPage(req,res) {
         var pid = req.params.pageId;
-        var result = [];
-        for(var w in widgets) {
-            if(widgets[w].pageId === pid) {
-                result.push(widgets[w]);
-            }
-        }
-        res.json(result);
+        widgetModel.findWidgetsByPageId(pid)
+            .then(
+                function (widgets) {
+                    res.send(widgets);
+                },
+                function (error) {
+                    res.send(error + "error in findAllWidetsForPage");
+                }
+            );
+        // var result = [];
+        // for(var w in widgets) {
+        //     if(widgets[w].pageId === pid) {
+        //         result.push(widgets[w]);
+        //     }
+        // }
+        // res.json(result);
     }
 
     function findWidgetById(req,res) {
         var widgetId=req.params.widgetId;
-        for (var w in widgets){
-            if(widgets[w]._id===widgetId){
-                res.send(widgets[w]);
-            }
-        }
+        widgetModel.findWidgetById(widgetId)
+            .then(
+                function (widget) {
+                    res.send(widget);
+                },
+                function (error) {
+                    res.send(error + "error in findWidgetById");
+                }
+            );
+        // for (var w in widgets){
+        //     if(widgets[w]._id===widgetId){
+        //         res.send(widgets[w]);
+        //     }
+        // }
     }
 
     function deleteWidget(req,res) {
         var widgetId=req.params.widgetId;
-        for(var w in widgets) {
-            if(widgets[w]._id == widgetId) {
-                var decIndex=parseInt(w);
-                decrementOrder(decIndex+1);
-                widgets.splice(w, 1);
-                //console.log(widgets);
-            }
-        }
-        res.send(200);
+        widgetModel.deleteWidget(widgetId)
+            .then(
+                function (success) {
+                    res.send(200);
+                },
+                function (error) {
+                    res.send(error + "error ar deleteWidget")
+                }
+            )
+        // for(var w in widgets) {
+        //     if(widgets[w]._id == widgetId) {
+        //         var decIndex=parseInt(w);
+        //         decrementOrder(decIndex+1);
+        //         widgets.splice(w, 1);
+        //         //console.log(widgets);
+        //     }
+        // }
+        // res.send(200);
     }
     function updateWidget(req,res) {
         var updatedWidget = req.body;
         var widgetId = req.params.widgetId;
-        for(var w in widgets) {
-            if(widgets[w]._id === widgetId) {
-                updatedWidget.order=widgets[w].order;
-                widgets[w] = updatedWidget;
-            }
-        }
-        res.send(200);
+        widgetModel.updateWidget(updatedWidget,widgetId)
+            .then(
+                function (success) {
+                    res.send(200);
+                },
+                function (error) {
+                    res.send(error+ "error in updateWidget");
+                }
+            );
+        // for(var w in widgets) {
+        //     if(widgets[w]._id === widgetId) {
+        //         updatedWidget.order=widgets[w].order;
+        //         widgets[w] = updatedWidget;
+        //     }
+        // }
+        // res.send(200);
     }
 
     function createWidget(req,res) {
         var pid = req.params.pageId;
         var newWidget = req.body;
-        var index=findwidgetByPidMIn(pid);
-        if(index===1000000){
-            index=1;
-        }
-        newWidget.order=index;
-        incrementOrder(index+1);
-        var temp =newWidget.order-1;
-        widgets.splice(temp,0,newWidget);
-        res.send(widgets);
+        newWidget._page=pid;
+        widgetModel.createWidget(newWidget)
+            .then(
+                function (widgtes) {
+                    res.send(widgtes);
+                },
+                function (error) {
+                    console.log(error);
+                    res.send(error + "error in widget Create");
+                }
+            );
+
+        // var index=findwidgetByPidMIn(pid);
+        // if(index===1000000){
+        //     index=1;
+        // }
+        // newWidget.order=index;
+        // incrementOrder(index+1);
+        // var temp =newWidget.order-1;
+        // widgets.splice(temp,0,newWidget);
+        // res.send(widgets);
         //console.log(widgets);
     }
 
@@ -111,8 +160,13 @@ module.exports= function (app) {
         var myFile        = request.file;
         var nameGiven     =request.body.name
       //  console.log(nameGiven);
-        var widgetPresent=widgetPresent1(widgetId);
-        if(widgetPresent){
+       // var widgetPresent=widgetPresent1(widgetId);
+        if(widgetId){
+          //  var widgetPresent=widgetModel.findWidgetById(widgetId);
+            var widgetPresent={
+                _id:widgetId,
+                type:"IMAGE"
+            }
             widgetPresent.url = "/uploads/" + myFile.filename
             widgetPresent.name=myFile.originalname;
             if(width){
@@ -120,51 +174,79 @@ module.exports= function (app) {
             }else{
                 widgetPresent.width = "100%";
             }
-            for(var w in widgets){
-                if(widgets[w]._id===widgetPresent._id){
-                    widgets[w]=widgetPresent;
+
+            widgetModel.updateWidget(widgetPresent,widgetId)
+                .then(
+                    function (success) {
+                        console.log(success);
+                        response.redirect("/assignment/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
+                    },
+                function (error) {
+                    res.send(error + "error uploading file")
                 }
-            }
-            response.redirect("/assignment/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
+            )
+
         }else {
 
             var newWidget =
             {
-                "_id": widgetId, "widgetType": "IMAGE", "pageId": pageId, "width": width,
-                "url": "/uploads/" + myFile.filename,
+                 "type": "IMAGE", "pageId": pageId, "width": width,
+                "url": "/uploads/" + myFile.filename,"_page":pageId
             };
             if(nameGiven){
                 newWidget.name=nameGiven;
             }
             else newWidget.name=myFile.originalname;
-            var order=findwidgetByPidMIn(pageId);
-            if(order===1000000){
-                order=1;
-            }
-            incrementOrder(order+1);
-            newWidget.order=order;
+            // var order=findwidgetByPidMIn(pageId);
+            // if(order===1000000){
+            //     order=1;
+            // }
+            // incrementOrder(order+1);
+            // newWidget.order=order;
             if(width){
                 newWidget.width = width;
             }else {
                 newWidget.width = "100%";
             }
-            widgets.splice(order-1,0,newWidget);
+            widgetModel.createWidget(newWidget)
+                .then(
+                    function (success) {
+                        console.log(success);
+                        response.redirect("/assignment/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + success._id);
+                    },
+                    function (error) {
+                        console.log(error+ "error in uploadFile server")
+                    }
+                );
+           // widgets.splice(order-1,0,newWidget);
            // widgets.push(newWidget);
             //console.log(widgets);
-            response.redirect("/assignment/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
+
 
         }
 
     }
     function widgetPresent1(widgetId) {
-        for (var i in widgets) {
-            if (widgets[i]._id === widgetId) {
-
-                return widgets[i];
-            }
-
-        }
-        return null;
+        widgetModel.findWidgetById(widgetId)
+            .then(
+                function (widget) {
+                    if(widget){
+                        res.send(widget);
+                    }
+                    else res.send(null)
+                },
+                function (error) {
+                    res.send(error+ "error at widgetPresent! in image upload server")
+                }
+            );
+        // for (var i in widgets) {
+        //     if (widgets[i]._id === widgetId) {
+        //
+        //         return widgets[i];
+        //     }
+        //
+        // }
+        // return null;
     }
 
     function findwidgetByPidMIn(pid) {
@@ -179,36 +261,51 @@ module.exports= function (app) {
 
     function reorderWidget(request,response){
         var pageId = request.params.pageId;
-        var index=findwidgetByPidMIn(pageId)-1;
-        var start = parseInt(request.query.start)+index;
-        var end = parseInt(request.query.end)+index;
-        //console.log("index is " +index);
-
-        if(start>end){
-            var w;
-            var spliced=widgets.splice(start,1);
-            spliced[0].order=widgets[end].order;
-            for(w=end; w<=start-1;w++){
-                widgets[w].order++;
-            }
-            widgets.splice(end,0,spliced[0]);
-            //console.log(widgets);
-        }
-        else{
-            var w;
-            var orderEnd=widgets[end].order;
-            var spliced=widgets.splice(start,1);
-            spliced[0].order=orderEnd;
-            for(w=start; w<end;w++){
-                widgets[w].order--;
-            }
-
-            widgets.splice(end,0,spliced[0]);
-           // console.log(widgets);
-        }
-        response.send(200);
-
-
+        var start = parseInt(request.query.start);
+        var end = parseInt(request.query.end);
+        widgetModel
+            .reorderWidget(pageId,start,end)
+            .then(
+                function(success){
+                    response.send(200);
+                },
+                function(error){
+                    response.send(error);
+                }
+            )
     }
+    // function reorderWidget(request,response){
+    //     var pageId = request.params.pageId;
+    //     var index=findwidgetByPidMIn(pageId)-1;
+    //     var start = parseInt(request.query.start)+index;
+    //     var end = parseInt(request.query.end)+index;
+    //     //console.log("index is " +index);
+    //
+    //     if(start>end){
+    //         var w;
+    //         var spliced=widgets.splice(start,1);
+    //         spliced[0].order=widgets[end].order;
+    //         for(w=end; w<=start-1;w++){
+    //             widgets[w].order++;
+    //         }
+    //         widgets.splice(end,0,spliced[0]);
+    //         //console.log(widgets);
+    //     }
+    //     else{
+    //         var w;
+    //         var orderEnd=widgets[end].order;
+    //         var spliced=widgets.splice(start,1);
+    //         spliced[0].order=orderEnd;
+    //         for(w=start; w<end;w++){
+    //             widgets[w].order--;
+    //         }
+    //
+    //         widgets.splice(end,0,spliced[0]);
+    //        // console.log(widgets);
+    //     }
+    //     response.send(200);
+    //
+    //
+    // }
 
 };
