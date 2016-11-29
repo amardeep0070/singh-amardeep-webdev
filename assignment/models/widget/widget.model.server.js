@@ -125,10 +125,28 @@ module.exports = function () {
     }
 
     function deleteWidget(widgetId) {
-        return widgetModel
-            .remove({
-                _id:widgetId
-            })
+        return findWidgetById(widgetId)
+            .then(function (deltedWidget) {
+                    var pid=deltedWidget._page;
+                    var or=deltedWidget.order;
+                    widgetModel.find({_page: deltedWidget._page},function(error,widgets){
+                        widgets.forEach(function(widget){
+                            if(widget.order>deltedWidget.order){
+                                widget.order--;
+                                widget.save(function(){});
+                            }
+                        })
+
+                    })
+                    return  widgetModel
+                        .remove({
+                            _id:widgetId
+                        })
+
+                },
+                function (errr) {
+                    console.log(error + "error at deleteWidget in server")
+                });
     }
     function reorderWidget(pageId, start, end){
         return widgetModel.find({_page: pageId},function(error,widgets){
